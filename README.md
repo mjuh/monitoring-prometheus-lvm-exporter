@@ -1,8 +1,17 @@
-# LVM pool prometheus exporter
-This docker, reads information about LVM thin pools and exports VG's size and VG's free space. Useful to know occupied space of VGs with thin pools and warn with prometheus if needed or metrics.
+# LVM thin pool Prometheus exporter
 
-## Running it
-The go binary will listen to port 9080 and serve metrics on the /metrics path, if we run it with docker, we should run the container as privileged.
+This program gets information about LVM thin pools with `lvs` binary and
+provides LV's size and LV's free space as a Prometheus metrics.
+
+The go binary will listen to port 9080 and serve metrics on the /metrics path.
+
+http://example.org:9080/metrics
 ```
-docker run --name=lvm-exporter --privileged=true -p 9080:9080 orimarti/lvm-exporter
+...
+lvm_lv_data_percent{lv_name="p510348"} 6.96
+lvm_lv_data_percent{lv_name="pool"} 86.37
+...
+lvm_lv_size{lv_name="p510348"} 6.442450944e+10
+lvm_lv_size{lv_name="pool"} 3.790002454528e+12
+...
 ```
